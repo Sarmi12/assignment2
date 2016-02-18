@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html ng-app="stdquiz" >
+<head>
+  <title>Student Quiz</title>
+
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>
+
+
+  <script>
+    angular.module('stdquiz.service', []);
+angular.module('stdquiz.directive', []);
+angular.module('stdquiz.filter', []);
+
+angular.module('stdquiz', ['stdquiz.service','stdquiz.directive','stdquiz.filter']);
+
+var QuizController = function($scope){
+ 
+
+  $scope.questions = [
+    {"questionText": "Question 1?", "answers": [
+      {"answerText":"Answer1a", "correct": true},
+      {"answerText":"Answer1b", "correct": false},
+      {"answerText":"Answer1c", "correct": false}
+      ]},
+    {"questionText": "Question 2?", "answers": [
+      {"answerText":"Answer2a", "correct": true},
+      {"answerText":"Answer2b", "correct": false},
+      {"answerText":"Answer2c", "correct": false}
+      ]},
+    {"questionText": "Question 3?", "answers": [
+      {"answerText":"Answer3a", "correct": true},
+      {"answerText":"Answer3b", "correct": false},
+      {"answerText":"Answer3c", "correct": false}
+      ]},
+      {"questionText": "Question 4?", "answers": [
+      {"answerText":"Answer4a", "correct": true},
+      {"answerText":"Answer4b", "correct": false},
+      {"answerText":"Answer4c", "correct": false}
+      ]}
+  ];
+  $scope.answers ={};
+  $scope.countYes = 0;
+  $scope.showResult = function(){
+    $scope.countYes = 0;
+    var qLength = $scope.questions.length;
+    for(var i=0;i<qLength;i++){
+      var answers = $scope.questions[i].answers;
+      $scope.questions[i].userAnswerCorrect = false;
+      $scope.questions[i].userAnswer = $scope.answers[i];
+      for(var j=0;j<answers.length;j++){
+        answers[j].selected = "donno";
+        if ($scope.questions[i].userAnswer === answers[j].answerText && answers[j].correct===true){
+          $scope.questions[i].userAnswerCorrect = true;
+          answers[j].selected = "true";
+          $scope.countYes++;
+        }else if($scope.questions[i].userAnswer === answers[j].answerText && answers[j].correct===false){
+          answers[j].selected = "false";
+        }
+      }
+    }
+    
+  };
+};
+
+
+                
+  </script>
+</head>
+<body>
+  <div ng-controller="QuizController">
+    <ol>
+      <li ng-repeat="question in questions">
+       <strong class="question">{{ question.questionText }}</strong>
+       <ol type = "a" id="quest_{{$parent.$index}}"">
+        <li ng-repeat="answer in question.answers">
+          <label class="{{answer.selected}}" for="quest_{{$parent.$index}}_answer_{{$index}}">
+            <input type="radio" id="quest_{{$parent.$index}}_answer_{{$index}}" 
+            ng-model="answers[$parent.$index]" value="{{ answer.answerText }}"  name="quest_{{$parent.$index}}_answers" />{{ answer.answerText }}</label>
+        </li>
+       </ol>
+      </li>
+    </ol>
+    <button type="submit" ng-click="showResult()">Submit</button>
+  <div>
+<p>You scored {{ countYes }} out of {{ questions.length }} right</p>
+  </div>
+    
+  </div>
+  
+ </body>
+</html>
