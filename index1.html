@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html ng-app="StudentQuizApp">
+    <head>
+        <title>Quiz Program</title>
+    </head>
+    <body>
+        <div ng-controller="quizProgramController as qpc">
+        <button ng-click="qpc.getnext()">Get Next Student</button>
+        <p>student: {{qpc.selectedStudent.name}}</p>
+        <p>question: {{qpc.selectedQuestion.question}}</p>
+        <p>answer: {{qpc.selectedQuestion.answer}}</p>
+        <button>Correct</button>
+        <button>Wrong</button>
+        <script src="angular.min.js"></script>
+        <script src="app.js"></script>
+        </div>
+    </body>
+</html>
